@@ -11,7 +11,8 @@ import googleapiclient.discovery
 
 
 
-import ast
+import os
+import logging
 
 
 
@@ -245,7 +246,7 @@ if __name__ == '__main__':
 	#     When running in production *do not* leave this option enabled.
 	#import os
 
-error_logs_file_path = 'error_logs.txt'
+
 
 	if os.path.exists("credentials.txt"):
 		try:
