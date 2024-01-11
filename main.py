@@ -25,16 +25,16 @@ CLIENT_SECRETS_FILE = ["client_secret_techraj1.json","client_secret_techraj2.jso
 # authenticated user's account and requires requests to use an SSL connection.
 def home():
 	global all_credentials
+	try:
 	if os.path.exists("credentials.txt"):
-		try:
-			f = open("credentials.txt")
-			all_credentials =  ast.literal_eval(f.read())
-			f.close()
-		
-		except:
-			all_credentials = []
+		f = open("credentials.txt")
+		all_credentials =  ast.literal_eval(f.read())
+		f.close()
 	else:
 		all_credentials = []
+except Exception as e:
+	logging.error(f"Error in home() - {e}")
+	all_credentials = []
 
 	NUM = len(all_credentials)
 	flask.session['NUM'] = NUM
@@ -95,10 +95,7 @@ def authorize():
 
 	# Generate URL for request to Google's OAuth 2.0 server.
 	# Use kwargs to set optional request parameters.
-	try:
-    flask.session['state'] = "state%d"%NUM
-except Exception as e:
-    logging.error(f"Error setting state value: {e}")
+	flask.session['state'] = "state%d"%NUM
 	authorization_url, state = flow.authorization_url(
 	    # Enable offline access so that you can refresh an access token without
 	    # re-prompting the user for permission. Recommended for web server apps.
@@ -111,6 +108,7 @@ except Exception as e:
 
 @app.route('/oauth2callback')
 def oauth2callback():
+    try:
     try:
         global NUM
         global all_credentials
@@ -145,6 +143,38 @@ def oauth2callback():
 
 @app.route('/oauth2callback')
 def oauth2callback():
+    try:
+        global NUM
+        global all_credentials
+        NUM = flask.session['NUM']
+        state = flask.session['state']
+        flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+            CLIENT_SECRETS_FILE[NUM],
+            scopes=['https://www.googleapis.com/auth/youtube.force-ssl'],
+            state=state)
+        flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+        authorization_response = flask.request.url
+        flow.fetch_token(authorization_response=authorization_response)
+        credentials = flow.credentials
+        if not 'credentials' in flask.session:
+            flask.session['credentials'] = []
+
+        all_credentials.append({
+            'token': credentials.token,
+            'refresh_token': credentials.refresh_token,
+            'token_uri': credentials.token_uri,
+            'client_id': credentials.client_id,
+            'client_secret': credentials.client_secret,
+            'scopes': credentials.scopes})
+        NUM+=1
+        if(NUM==8):
+            f = open('credentials.txt','w')
+            f.write(str(all_credentials))
+            f.close()
+        return "Succesfully authorized App %d <a href='/authorize'>Authorize</a> "%(NUM)
+    except Exception as e:
+        logging.error(f"Error in oauth2callback(): {e}")
+        return str(e)
 	global NUM
 	global all_credentials
 	#After the consent, we are redirected to this page. We can retrieve the authorization code from here
