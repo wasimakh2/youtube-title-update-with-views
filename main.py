@@ -79,7 +79,10 @@ def test():
 		all_credentials =  ast.literal_eval(f.read())
 		f.close()
 
-	except:
+	except Exception as e:
+    logging.error(f"Error in test: {e}")
+    utils.write_error_log(str(e))
+    return "Error - No credentials.txt"
 		return "Error - No credentials.txt"
 
 	
