@@ -95,7 +95,10 @@ def authorize():
 
 	# Generate URL for request to Google's OAuth 2.0 server.
 	# Use kwargs to set optional request parameters.
-	flask.session['state'] = "state%d"%NUM
+	try:
+    flask.session['state'] = "state%d"%NUM
+except Exception as e:
+    logging.error(f"Error setting state value: {e}")
 	authorization_url, state = flow.authorization_url(
 	    # Enable offline access so that you can refresh an access token without
 	    # re-prompting the user for permission. Recommended for web server apps.
