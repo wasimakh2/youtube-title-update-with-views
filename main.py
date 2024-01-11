@@ -44,7 +44,7 @@ def home():
 			f = open("credentials.txt")
 			all_credentials =  ast.literal_eval(f.read())
 			f.close()
-			print("file read")
+		
 		except:
 			all_credentials = []
 	else:
@@ -74,7 +74,7 @@ def test():
 		f = open("credentials.txt")
 		all_credentials =  ast.literal_eval(f.read())
 		f.close()
-		print("file read")
+
 	except:
 		return "Error - No credentials.txt"
 
@@ -98,7 +98,7 @@ def authorize():
 	NUM = flask.session['NUM']
 
 	if(NUM==8):
-		return "All 8 apps are authorized."
+		return "All 8 apps are already authorized."
 
 	print("Authorizing app %d"%(NUM+1))
 
@@ -136,7 +136,11 @@ def oauth2callback():
 	flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
 
 	#use the flow.fetch_token method to exchange the authorization code in that response for an access token
-	authorization_response = flask.request.url
+	try:
+		authorization_response = flask.request.url
+		flow.fetch_token(authorization_response=authorization_response)
+	except:
+		return 'Error - Cannot verify authorization code'
 	flow.fetch_token(authorization_response=authorization_response)
 
 	#Now store credentials in the session
@@ -179,7 +183,7 @@ if __name__ == '__main__':
 			f = open("credentials.txt")
 			all_credentials =  ast.literal_eval(f.read())
 			f.close()
-			print("file read")
+	
 		except:
 			all_credentials = []
 	else:
