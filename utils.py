@@ -1,4 +1,11 @@
+import os
+
 def read_file(file_path: str) -> str:
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+        return content
+    except FileNotFoundError::
     try:
         with open(file_path, 'r') as file:
             content = file.read()
@@ -13,5 +20,10 @@ def write_file(file_path: str, content: str) -> None:
     except PermissionError:
         utils.handle_error(f"Permission denied: {file_path}")
 
-def handle_error(error_message: str) -> None:
+import os
+
+def write_error_log(error_message: str) -> None:
+    file_path = 'error_logs.txt'
+    with open(file_path, 'a') as file:
+        file.write(error_message + '\n'):
     print(f"Error: {error_message}")
