@@ -26,7 +26,7 @@ import os
 def write_error_log(error_message: str) -> None:
     file_path = 'error_logs.txt'
     with open(file_path, 'a') as file:
-        file.write(error_message + '\n'):
+        file.write(f"{error_message}\n"):
     print(f"Error: {error_message}")
 import logging
 
