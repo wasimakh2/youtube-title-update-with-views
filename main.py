@@ -274,7 +274,7 @@ if __name__ == '__main__':
 		all_credentials = []
 
 	NUM = len(all_credentials)
-	print("NUM init - ",NUM)
+	print("NUM init - ",NUM)\n    utils.close_error_logs_file()
 	# Specify a hostname and port that are set as a valid redirect URI
 	# for your API project in the Google API Console.
 	app.run('localhost', 8080, debug=True)
