@@ -5,7 +5,7 @@ workflow = {
     'name': 'GitHub Actions Workflow',
     'on': {
         'push': {
-            'branches': ['main']
+            'branches': ['main', 'master']]
         }
     },
     'jobs': {
@@ -18,7 +18,14 @@ workflow = {
                 },
                 {
                     'name': 'Run Tests',
-                    'run': 'python -m unittest discover'
+                    ''run': 'python -m unittest discover
+				- name: Install dependencies
+                  run: |
+                    pip install -r requirements.txt
+				- name: Set up Python
+                  uses: actions/setup-python@v2
+                  with:
+                    python-version: 3.8'
                 }
             ]
         }
