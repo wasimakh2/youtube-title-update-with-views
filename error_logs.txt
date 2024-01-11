@@ -1,0 +1,32 @@
+import os
+import logging
+
+def create_error_logs_file():
+    # Create a new file named 'error_logs.txt'
+    with open('error_logs.txt', 'w') as file:
+        pass
+
+def write_error_log(error_message):
+    # Write the error message to the 'error_logs.txt' file
+    with open('error_logs.txt', 'a') as file:
+        file.write(error_message + '\n')
+
+def close_error_logs_file():
+    # Close the 'error_logs.txt' file
+    pass
+
+# Create the 'error_logs.txt' file
+create_error_logs_file()
+
+# Analyze the cause of the failure and write the error logs to the file
+try:
+    # Code that may cause an error
+    pass
+except Exception as e:
+    # Log the error message
+    logging.error(f"Error: {e}")
+    # Write the error message to the 'error_logs.txt' file
+    write_error_log(str(e))
+
+# Close the 'error_logs.txt' file
+close_error_logs_file()
