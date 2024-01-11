@@ -23,20 +23,6 @@ CLIENT_SECRETS_FILE = ["client_secret_techraj1.json","client_secret_techraj2.jso
 
 # This OAuth 2.0 access scope allows for full read/write access to the
 # authenticated user's account and requires requests to use an SSL connection.
-SCOPES = ['https://www.googleapis.com/auth/youtube.force-ssl']
-API_SERVICE_NAME = 'youtube'
-API_VERSION = 'v3'
-NUM = 0
-STARTED = False
-all_credentials = []
-
-app = flask.Flask(__name__)
-# Note: A secret key is included in the sample so that it works.
-# If you use this code in your application, replace this with a truly secret
-# key. See https://flask.palletsprojects.com/quickstart/#sessions.
-app.secret_key = os.getenv('SECRET_KEY')
-
-@app.route('/')
 def home():
 	global all_credentials
 	if os.path.exists("credentials.txt"):
