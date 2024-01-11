@@ -129,7 +129,7 @@ def oauth2callback():
         authorization_response = flask.request.url
         flow.fetch_token(authorization_response=authorization_response)
         credentials = flow.credentials
-        if 'credentials' not in flask.session:
+        if 'credentials' not in flask.session or 'credentials' not in all_credentials or 'credentials' not in all_credentials:
             flask.session['credentials'] = []
         all_credentials.append({
             'token': credentials.token,
@@ -140,9 +140,7 @@ def oauth2callback():
             'scopes': credentials.scopes})
         NUM+=1
         if(NUM==8):
-            f = open('credentials.txt','w')
-            f.write(str(all_credentials))
-            f.close()
+
         return "Succesfully authorized App %d <a href='/authorize'>Authorize</a> "%(NUM)
     except Exception as e:
         logging.error(f"Error in oauth2callback(): {e}")
