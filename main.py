@@ -29,7 +29,15 @@ def home():
     
 	if os.path.exists("credentials.txt"):
 		f = open("credentials.txt")
-		all_credentials =  ast.literal_eval(f.read())
+		try:
+	if os.path.exists("credentials.txt"):
+		with open("credentials.txt") as f:
+			all_credentials =  ast.literal_eval(f.read())
+	else:
+		all_credentials = []
+except Exception as e:
+	logging.error(f"Error while reading credentials.txt: {e}")
+	all_credentials = [] ast.literal_eval(f.read())
 		f.close()
 	else:
 		all_credentials = []
@@ -115,7 +123,6 @@ def authorize():
 
 @app.route('/oauth2callback')
 def oauth2callback():
-    try:
     try:
         global NUM
         global all_credentials
