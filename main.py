@@ -44,11 +44,11 @@ except Exception as e:
 	else:
 		all_credentials = []
 except Exception as e:
-    logging.error(f"Error in home() - {e}")
+    utils.write_error_log(str(e))
     all_credentials = []
     logging.error(f"Error in home() - {e}")
     all_credentials = []
-    logging.error(f"Error in home() - {e}")
+    utils.write_error_log(str(e))
     all_credentials = []
 	logging.error(f"Error in home() - {e}")
 	all_credentials = []
@@ -258,7 +258,7 @@ error_logs_file_path = 'error_logs.txt'
         all_credentials =  ast.literal_eval(f.read())
         f.close()
     except Exception as e:
-        logging.error(f"Error reading credentials.txt: {e}")
+        utils.write_error_log(str(e))
         all_credentials = []
 			all_credentials = []
 	else:
