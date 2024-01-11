@@ -1,18 +1,18 @@
 import os
 import flask
 import requests
-import time
+
 
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
-from updatetitle import start
-import threading
 
-import get_video_info
-import json
+
+
+
+
 import ast
-import smtplib
+
 
 
 #List of client secret keys downloaded from Google API Console.
@@ -21,7 +21,7 @@ CLIENT_SECRETS_FILE = ["client_secret_techraj1.json","client_secret_techraj2.jso
 "client_secret_techraj7.json","client_secret_techraj8.json"]
 
 
-# This OAuth 2.0 access scope allows for full read/write access to the
+
 # authenticated user's account and requires requests to use an SSL connection.
 def home():
 	global all_credentials
@@ -36,6 +36,8 @@ def home():
 	else:
 		all_credentials = []
 except Exception as e:
+    logging.error(f"Error while reading credentials.txt: {e}")
+    all_credentials = [] Exception as e:
 	logging.error(f"Error while reading credentials.txt: {e}")
 	all_credentials = [] ast.literal_eval(f.read())
 		f.close()
@@ -249,7 +251,13 @@ if __name__ == '__main__':
 			all_credentials =  ast.literal_eval(f.read())
 			f.close()
 	
-		except:
+		try:
+        f = open("credentials.txt")
+        all_credentials =  ast.literal_eval(f.read())
+        f.close()
+    except Exception as e:
+        logging.error(f"Error reading credentials.txt: {e}")
+        all_credentials = []
 			all_credentials = []
 	else:
 		all_credentials = []
