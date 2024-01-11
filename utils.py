@@ -32,4 +32,5 @@ import logging
 
 def write_error_log(error_message):
     # Log the error message
-    logging.error(f"Error: {error_message}")
+    with open(file_path, 'a') as file:
+        file.write(f"{error_message}\n"))
