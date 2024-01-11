@@ -104,7 +104,41 @@ def authorize():
 	    state='state%d'%NUM,
 	    include_granted_scopes='true')
 
-	return flask.redirect(authorization_url) #redirect to Google's Oauth server for consent
+	return flask.redirect(authorization_url)
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    try:
+        global NUM
+        global all_credentials
+        NUM = flask.session['NUM']
+        state = flask.session['state']
+        flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+            CLIENT_SECRETS_FILE[NUM],
+            scopes=['https://www.googleapis.com/auth/youtube.force-ssl'],
+            state=state)
+        flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+        authorization_response = flask.request.url
+        flow.fetch_token(authorization_response=authorization_response)
+        credentials = flow.credentials
+        if not 'credentials' in flask.session:
+            flask.session['credentials'] = []
+        all_credentials.append({
+            'token': credentials.token,
+            'refresh_token': credentials.refresh_token,
+            'token_uri': credentials.token_uri,
+            'client_id': credentials.client_id,
+            'client_secret': credentials.client_secret,
+            'scopes': credentials.scopes})
+        NUM+=1
+        if(NUM==8):
+            f = open('credentials.txt','w')
+            f.write(str(all_credentials))
+            f.close()
+        return "Succesfully authorized App %d <a href='/authorize'>Authorize</a> "%(NUM)
+    except Exception as e:
+        logging.error(f"Error in oauth2callback(): {e}")
+        return str(e)
 
 @app.route('/oauth2callback')
 def oauth2callback():
