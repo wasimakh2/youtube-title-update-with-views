@@ -26,6 +26,7 @@ CLIENT_SECRETS_FILE = ["client_secret_techraj1.json","client_secret_techraj2.jso
 def home():
 	global all_credentials
 	try:
+    
 	if os.path.exists("credentials.txt"):
 		f = open("credentials.txt")
 		all_credentials =  ast.literal_eval(f.read())
@@ -33,6 +34,12 @@ def home():
 	else:
 		all_credentials = []
 except Exception as e:
+    logging.error(f"Error in home() - {e}")
+    all_credentials = []
+    logging.error(f"Error in home() - {e}")
+    all_credentials = []
+    logging.error(f"Error in home() - {e}")
+    all_credentials = []
 	logging.error(f"Error in home() - {e}")
 	all_credentials = []
 
@@ -122,7 +129,7 @@ def oauth2callback():
         authorization_response = flask.request.url
         flow.fetch_token(authorization_response=authorization_response)
         credentials = flow.credentials
-        if not 'credentials' in flask.session:
+        if 'credentials' not in flask.session:
             flask.session['credentials'] = []
         all_credentials.append({
             'token': credentials.token,
@@ -156,7 +163,7 @@ def oauth2callback():
         authorization_response = flask.request.url
         flow.fetch_token(authorization_response=authorization_response)
         credentials = flow.credentials
-        if not 'credentials' in flask.session:
+        if 'credentials' not in flask.session:
             flask.session['credentials'] = []
 
         all_credentials.append({
