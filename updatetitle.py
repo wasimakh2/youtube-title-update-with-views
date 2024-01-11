@@ -1,3 +1,4 @@
+from main import requests
 import get_video_info
 import json
 import time
@@ -83,12 +84,12 @@ def start(flask_credentials):
 				#Some error occured, notify via mail
 				try:
 					fillForm(str(response))
-				except:
+				except Exception as e:
 					pass
 		except Exception as e:
 			try:
 				fillForm(str(e))
-			except:
+			except Exception as e:
 				pass
 
 		num+=1
