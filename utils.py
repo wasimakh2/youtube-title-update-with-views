@@ -28,3 +28,8 @@ def write_error_log(error_message: str) -> None:
     with open(file_path, 'a') as file:
         file.write(error_message + '\n'):
     print(f"Error: {error_message}")
+import logging
+
+def write_error_log(error_message):
+    # Log the error message
+    logging.error(f"Error: {error_message}")
