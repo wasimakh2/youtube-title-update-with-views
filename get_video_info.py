@@ -6,8 +6,11 @@ SAMPLE JSON RESPONSE :
 
 {
  "kind": "youtube#videoListResponse",
- "etag": "\"xwzn9fn_LczrfK9QS3iZcGzqRGs/26m8nrWEf1a8GwB-k_maC929WPo\"",
- "pageInfo": {
+ VIDEO_ID = os.getenv("VIDEO_ID")
+API_KEY = os.getenv("API_KEY")
+if VIDEO_ID is None or API_KEY is None:
+    raise Exception("One or both environment variables are not set")
+try:
   "totalResults": 1,
   "resultsPerPage": 1
  },
@@ -89,6 +92,8 @@ SAMPLE JSON RESPONSE :
 
 
 import os
+
+import logging
 import requests
 import json
 import urllib.parse
