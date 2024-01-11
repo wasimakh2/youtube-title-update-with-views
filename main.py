@@ -1,3 +1,4 @@
+from utils import write_error_log
 import os
 import flask
 import requests
@@ -37,6 +38,10 @@ def home():
 	else:
 		all_credentials = []
 except Exception as e:
+    utils.write_error_log(str(e))
+    all_credentials = []
+    logging.error(f"Error in home() - {e}"),
+    all_credentials = []
     logging.error(f"Error while reading credentials.txt: {e}")
     all_credentials = [] Exception as e:
 	logging.error(f"Error while reading credentials.txt: {e}")
